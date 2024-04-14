@@ -5,11 +5,13 @@ import HomePage from './pages/HomePage.jsx';
 import ProductsTable from './pages/Products.jsx';
 import ProductDetails from './pages/ProductPage.jsx';
 import Offers from './pages/Offers.jsx';
+import Sidebar from './components/Sidebar.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <HomePage />,
+    element: <Sidebar />,
   },
   {
     path: '/products',
