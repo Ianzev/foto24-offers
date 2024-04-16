@@ -5,7 +5,6 @@ function ProductsTable() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    // Fetch products from backend server
     fetch('http://localhost:3001/products')
       .then(response => response.json())
       .then(data => {
@@ -17,30 +16,39 @@ function ProductsTable() {
   }, []);
 
   return (
-    <div>
-      <h1>Products</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>SKU</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Foto24</th>
-            <th>Photo24</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map(product => (
-            <tr key={product.sku}>
-              <td>{product.sku}</td>
-              <td>{product.name}</td>
-              <td>{product.price}</td>
-              <td>{product.urlfoto24}</td>
-              <td>{product.urlphoto24}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="flex">
+      <aside className="h-screen flex flex-col bg-white border-r shadow-sm">
+        <nav className="h-full flex flex-col bg-white border-r shadow-sm">
+          <div className="p-4 pb-2 flex justify-between items-center">
+            <h1 className="text-2xl font-bold">Products</h1>
+          </div>
+
+          <table className="w-full">
+            <thead>
+              <tr>
+                <th className="px-4 py-2">SKU</th>
+                <th className="px-4 py-2">Name</th>
+                <th className="px-4 py-2">Price</th>
+                <th className="px-4 py-2">Foto24</th>
+                <th className="px-4 py-2">Photo24</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map(product => (
+                <tr key={product.sku} className="hover:bg-indigo-50 text-gray-600">
+                  <td className="border px-4 py-2">
+                    <Link to={`/products/${product.sku}`}>{product.sku}</Link>
+                  </td>
+                  <td className="border px-4 py-2">{product.name}</td>
+                  <td className="border px-4 py-2">{product.price}</td>
+                  <td className="border px-4 py-2">{product.urlfoto24}</td>
+                  <td className="border px-4 py-2">{product.urlphoto24}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </nav>
+      </aside>
     </div>
   );
 }
