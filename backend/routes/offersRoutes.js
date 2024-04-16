@@ -39,31 +39,4 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.get("/:id/products", async (req, res) => {
-  const offerId = req.params.id;
-  try {
-    const client = await pool.connect();
-    const query = `
-      SELECT
-        p.name AS product_name,
-        p.price AS original_price,
-        o.products->>'price' AS reduced_price,
-        o.sku
-      FROM
-        products p
-      JOIN
-        offers o ON p.sku = (o.products->>'sku')::int
-      WHERE
-        o.offer_id = $1;
-    `;
-    const result = await client.query(query, [offerId]);
-    const products = result.rows;
-    client.release();
-    res.json(products);
-  } catch (error) {
-    console.error("Error fetching products for offer:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
 module.exports = router;

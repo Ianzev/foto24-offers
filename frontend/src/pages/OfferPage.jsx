@@ -5,12 +5,18 @@ import { useParams, Link } from 'react-router-dom';
 function OfferDetails() {
     const { id } = useParams();
     const [offer, setOffer] = useState(null);
+    const [products, setProducts] = useState(null);
 
     useEffect(() => {
         fetch(`http://localhost:3001/offers/${id}`)
         .then(response => response.json())
         .then(data => {
             setOffer(data);
+        })
+        fetch(`http://localhost:3001/products`)
+        .then(response => response.json())
+        .then(productsData => {
+            setProducts(productsData);
         })
         .catch(error => {
             console.error('Error fetching offer details:', error);
@@ -20,7 +26,22 @@ function OfferDetails() {
     if (!offer) {
         return <div>Loading...</div>;
     }
-
+    const secondArrayMap = products.reduce((map, obj) => {
+      map[obj.sku] = obj;
+      return map;
+  }, {});
+  
+  // Create the final array by combining data from both arrays
+  const finalProductsArray = offer.products.map(item => {
+      const additionalInfo = secondArrayMap[item.sku];
+      return {
+          sku: item.sku,
+          priceReduced: item.price,
+          name: additionalInfo ? additionalInfo.name : '', // If additionalInfo exists, get the name, otherwise use an empty string
+          price: additionalInfo ? additionalInfo.price : '' // If additionalInfo exists, get the price, otherwise use an empty string
+      };
+  });
+  
   return (
     <div className="flex">
       <aside className="h-screen flex flex-col bg-white shadow-sm">
@@ -55,6 +76,28 @@ function OfferDetails() {
           <div className="p-4 pb-2 flex justify-between items-center">
             <h1 className="text-2xl font-bold">Products</h1>
           </div>
+          <table className="w-full">
+            <thead>
+              <tr>
+                <th className="px-4 py-2">SKU</th>
+                <th className="px-4 py-2">Name</th>
+                <th className="px-4 py-2">Price</th>
+                <th className="px-4 py-2">Price reduced</th>
+              </tr>
+            </thead>
+            <tbody>
+              {finalProductsArray.map(product => (
+                <tr key={product.sku} className="hover:bg-indigo-50 text-gray-600">
+                  <td className="border px-4 py-2">
+                  <Link to={`/products/${product.sku}`}>{product.sku}</Link>
+                    </td>
+                  <td className="border px-4 py-2">{product.name}</td>
+                  <td className="border px-4 py-2">{product.price}</td>
+                  <td className="border px-4 py-2">{product.priceReduced}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
           
         </nav>
       </aside>
