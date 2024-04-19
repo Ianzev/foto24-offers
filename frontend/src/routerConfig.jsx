@@ -6,7 +6,7 @@ import ProductDetails from './pages/ProductPage.jsx';
 import Offers from './pages/Offers.jsx';
 import OfferDetails from './pages/OfferPage.jsx';
 import LoginContainer from './pages/Login/LoginContainer.jsx';
-import Layout from './components/Layout.jsx';
+import Layout from './pages/Components/Layout.jsx';
 
 // Wrapper component to conditionally render Layout
 const RouteWrapper = ({ element }) => {
@@ -43,11 +43,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/login',
-    element: <LoginContainer isLoginForm={true} isActiveProp={false} />
+    element: <LoginContainer isLoginFormProp={true} />
   },
   {
     path: '/register',
-    element: <LoginContainer isLoginForm={false} isActiveProp={true} />
+    element: <LoginContainer isLoginFormProp={false} />
   }
 ]);
 

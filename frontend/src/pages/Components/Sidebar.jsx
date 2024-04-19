@@ -1,6 +1,6 @@
 import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react"
 import { useContext, createContext, useState } from "react"
-import foto24Logo from '../components/images/foto24.png';
+import foto24Logo from '../../assets/images/foto24_logo.png';
 
 const SidebarContext = createContext()
 

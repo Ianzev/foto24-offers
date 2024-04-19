@@ -2,20 +2,30 @@ import React, { useState } from 'react';
 import Login from './Login';
 import Register from './Register';
 import './style.css';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-const LoginContainer = ({isLoginForm, isActiveProp}) => {
-    const [isActive, setIsActive] = useState(isActiveProp);
+const LoginContainer = ({isLoginFormProp}) => {
+
+    const [isLoginForm, setIsLoginForm] = useState(isLoginFormProp);
+    const [showAlert, setShowAlert] = useState(false);
+    const location = useLocation();
+
+    const handleSuccessfulRegistration = () => {
+        setIsLoginForm(true); // Update isLoginForm to true
+        setShowAlert(true);
+        setTimeout(() => {
+            setShowAlert(false); // Hide the alert after 5 seconds
+        }, 5000); // 5000 milliseconds = 5 seconds
+    };
 
     const toggleForm = () => {
-        setIsActive(!isActive); // Toggle the isActive state
+        setIsLoginForm(!isLoginForm); // Toggle the isActive state
     };
-    
+
     return (
         <>
         <div className='wrapper'>
-        <div className={`container ${isActive ? 'active' : ''} main-container`}>
+        <div className={`container ${isLoginForm ? '' : 'active'} main-container`}>
             {isLoginForm ? (
                 <>
                 <Login />
@@ -31,7 +41,7 @@ const LoginContainer = ({isLoginForm, isActiveProp}) => {
                 </>
             ) : (
                 <>
-                <Register />
+                <Register onSuccessfulRegistration={handleSuccessfulRegistration}/>
                 <div className="toggle-container">
                     <div className="toggle">
                         <div className="toggle-panel toggle-left">
@@ -45,6 +55,12 @@ const LoginContainer = ({isLoginForm, isActiveProp}) => {
             )}
         </div>
         </div>
+        {(showAlert && (location.pathname === '/register' || location.pathname === '/login')) && (
+                <div className="custom-alert">
+                    <span className="close" onClick={() => setShowAlert(false)}>&times;</span>
+                    Registration successful!
+                </div>
+            )}
         </>
        
     );

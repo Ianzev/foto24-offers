@@ -1,5 +1,4 @@
 import './style.css';
-import React, { useState } from 'react';
 
 function Login(){
     return(
