@@ -1,40 +1,52 @@
-// LoginContainer.jsx
 import React, { useState } from 'react';
-import LoginForm from './Login';
+import Login from './Login';
+import Register from './Register';
 import './style.css';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const LoginContainer = () => {
-    const [isLoginForm, setIsLoginForm] = useState(true);
+const LoginContainer = ({isLoginForm, isActiveProp}) => {
+    const [isActive, setIsActive] = useState(isActiveProp);
 
     const toggleForm = () => {
-        setIsLoginForm(!isLoginForm);
+        setIsActive(!isActive); // Toggle the isActive state
     };
     
-
     return (
-        <div className='container'>
-            <div className="form-container sign-in">
-                <LoginForm isLoginForm={isLoginForm} />
-            </div>
-            <div className="toggle-container">
-                <div className="toggle">
-                    <div className={`toggle-panel toggle-left`}>
-                        <h1>{isLoginForm ? "Welcome Back!" : "Hello, Friend!"}</h1>
-                        <p>{isLoginForm ? "Enter your personal details to use all site features." : "Register with your personal details to use all site features."}</p>
-                        <button className={`hidden`} onClick={toggleForm}>
-                            {isLoginForm ? "Sign In" : "Register"}
-                        </button>
-                    </div>
-                    <div className={`toggle-panel toggle-right`}>
-                        <h1>{isLoginForm ? "Hello, Friend!" : "Welcome Back!"}</h1>
-                        <p>{isLoginForm ? "Register with your personal details to use all site features." : "Enter your personal details to use all site features."}</p>
-                        <button className="register" onClick={toggleForm}>
-                            {isLoginForm ? "Register" : "Sign In"}
-                        </button>
+        <>
+        <div className='wrapper'>
+        <div className={`container ${isActive ? 'active' : ''} main-container`}>
+            {isLoginForm ? (
+                <>
+                <Login />
+                <div className="toggle-container">
+                    <div className="toggle">
+                        <div className="toggle-panel toggle-right">
+                            <h1 className='h1-login'>Hello, Friend!</h1>
+                            <p>You don't have an account? Register with your personal details to use all of site features</p>
+                            <Link to='/register'><button className="button-form" id="register" onClick={toggleForm}>Sign Up</button></Link>
+                        </div>
                     </div>
                 </div>
-            </div>
+                </>
+            ) : (
+                <>
+                <Register />
+                <div className="toggle-container">
+                    <div className="toggle">
+                        <div className="toggle-panel toggle-left">
+                            <h1 className='h1-login'>Welcome Back!</h1>
+                            <p>You already have an account? Enter your personal details to use all of site features</p>
+                            <Link to='/login'><button className="button-form" id="login" onClick={toggleForm} >Sign In</button></Link>
+                        </div>
+                    </div>
+                </div>
+                </>
+            )}
         </div>
+        </div>
+        </>
+       
     );
 };
 
