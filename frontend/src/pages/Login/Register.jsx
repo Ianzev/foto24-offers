@@ -2,7 +2,7 @@ import './style.css';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function Register({ onSuccessfulRegistration }) {
+function Register({ onSuccessfulRegistration, onErrorRegistration }) {
 
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -29,11 +29,13 @@ function Register({ onSuccessfulRegistration }) {
             if (response.ok) {
                 // Registration successful
                 console.log('Registration successful');
-                onSuccessfulRegistration();
                 navigate('/login');
+                onSuccessfulRegistration();
+                
             } else {
                 // Registration failed
                 console.error('Registration failed');
+                onErrorRegistration();
             }
         } catch (error) {
             console.error('Error:', error);

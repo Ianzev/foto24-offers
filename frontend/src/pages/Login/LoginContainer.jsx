@@ -1,26 +1,50 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import Login from './Login';
 import Register from './Register';
+import Alert from '../Components/Alert';
 import './style.css';
-import { Link, useLocation } from 'react-router-dom';
+
+
 
 const LoginContainer = ({isLoginFormProp}) => {
 
     const [isLoginForm, setIsLoginForm] = useState(isLoginFormProp);
-    const [showAlert, setShowAlert] = useState(false);
-    const location = useLocation();
+
+    const [showSuccessRegistrationAlert, setShowSuccessAlert] = useState(false);
+    const [showErrorRegistrationAlert, setShowRegErrorAlert] = useState(false);
+
+    const [showErrorLoginAlert, setShowLogErrorAlert] = useState(false);
 
     const handleSuccessfulRegistration = () => {
         setIsLoginForm(true); // Update isLoginForm to true
-        setShowAlert(true);
+        setShowSuccessAlert(true);
         setTimeout(() => {
-            setShowAlert(false); // Hide the alert after 5 seconds
-        }, 5000); // 5000 milliseconds = 5 seconds
+            setShowSuccessAlert(false); // Hide the alert after 5 seconds
+        }, 8000); // 5000 milliseconds = 5 seconds
+
+    };
+
+    const handleRegistrationError = () => {
+        setShowRegErrorAlert(true);
+        setTimeout(() => {
+            setShowRegErrorAlert(false); // Hide the error alert after 5 seconds
+        }, 8000); // 8000 milliseconds = 8 seconds
+    };
+
+    const handleLoginError = () => {
+        setShowLogErrorAlert(true);
+        setTimeout(() => {
+            setShowLogErrorAlert(false); // Hide the error alert after 5 seconds
+        }, 8000); // 8000 milliseconds = 8 seconds
     };
 
     const toggleForm = () => {
         setIsLoginForm(!isLoginForm); // Toggle the isActive state
     };
+
+
 
     return (
         <>
@@ -28,7 +52,7 @@ const LoginContainer = ({isLoginFormProp}) => {
         <div className={`container ${isLoginForm ? '' : 'active'} main-container`}>
             {isLoginForm ? (
                 <>
-                <Login />
+                <Login onErrorLogin={handleLoginError}/>
                 <div className="toggle-container">
                     <div className="toggle">
                         <div className="toggle-panel toggle-right">
@@ -38,10 +62,15 @@ const LoginContainer = ({isLoginFormProp}) => {
                         </div>
                     </div>
                 </div>
+                {showErrorLoginAlert && (
+                <Alert  message={
+                    <>Please verify your email and password and try again </>} 
+                        result={false} onClose={() => setShowSuccessAlert(false)} />
+            )}
                 </>
             ) : (
                 <>
-                <Register onSuccessfulRegistration={handleSuccessfulRegistration}/>
+                <Register onSuccessfulRegistration={handleSuccessfulRegistration} onErrorRegistration={handleRegistrationError}/>
                 <div className="toggle-container">
                     <div className="toggle">
                         <div className="toggle-panel toggle-left">
@@ -55,11 +84,17 @@ const LoginContainer = ({isLoginFormProp}) => {
             )}
         </div>
         </div>
-        {(showAlert && (location.pathname === '/register' || location.pathname === '/login')) && (
-                <div className="custom-alert">
-                    <span className="close" onClick={() => setShowAlert(false)}>&times;</span>
-                    Registration successful!
-                </div>
+        {showSuccessRegistrationAlert && (
+                <Alert  message={
+                    <>  Registration successful!<br />
+                        You can log in now!</>} 
+                        result={true} onClose={() => setShowSuccessAlert(false)} />
+            )}
+        {showErrorRegistrationAlert && (
+                <Alert  message={
+                    <>  Registration failed! <br />
+                        This email is already assigned to an account</>} 
+                        result={false} onClose={() => setShowRegErrorAlert(false)} />
             )}
         </>
        
