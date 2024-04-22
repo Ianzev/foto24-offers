@@ -48,6 +48,7 @@ const LoginContainer = ({isLoginFormProp}) => {
 
     return (
         <>
+        <div className='login-container'>
         <div className='wrapper'>
         <div className={`container ${isLoginForm ? '' : 'active'} main-container`}>
             {isLoginForm ? (
@@ -96,6 +97,7 @@ const LoginContainer = ({isLoginFormProp}) => {
                         This email is already assigned to an account</>} 
                         result={false} onClose={() => setShowRegErrorAlert(false)} />
             )}
+            </div>
         </>
        
     );

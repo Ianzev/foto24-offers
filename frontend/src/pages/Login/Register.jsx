@@ -43,6 +43,7 @@ function Register({ onSuccessfulRegistration, onErrorRegistration }) {
     };
 
     return (
+        <div className="login-container">
         <div className="form-container sign-up">
             <form onSubmit={handleSubmit}>
                 <h1 className='h1-login'>Create Account</h1>
@@ -53,6 +54,7 @@ function Register({ onSuccessfulRegistration, onErrorRegistration }) {
                 <input type="password" placeholder="Password" id='password' value={formData.password} onChange={handleInputChange} />
                 <button type="submit">Sign Up</button>
             </form>
+        </div>
         </div>
     );
 }

@@ -39,6 +39,7 @@ function Login({onErrorLogin}){
         }
     };
     return (
+        <div className='login-container'>
         <div className="form-container sign-in">
             <form onSubmit={handleLogin}>
                 <h1 className='h1-login'>Sign In</h1>
@@ -60,6 +61,7 @@ function Login({onErrorLogin}){
                 <a href="#">Forget Your Password?</a>
                 <button type="submit">Sign In</button>
             </form>
+        </div>
         </div>
     );
     

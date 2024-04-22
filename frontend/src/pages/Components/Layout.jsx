@@ -6,10 +6,10 @@ const Layout = ({ children }) => {
   return (
     <div className="flex">
       <Sidebar>
-        <a href="/products">
+        <a className="link" href="/products">
           <SidebarItem icon={<PackageSearch  size={20}/>} text="Products" />
         </a>
-        <a href="/offers">
+        <a className="link" href="/offers">
           <SidebarItem icon={<BadgePercent  size={20}/>} text="Offers" />
         </a>
       </Sidebar>
