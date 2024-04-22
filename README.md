@@ -35,19 +35,17 @@ Welcome to the Foto24 Offers Management App! This application is designed to str
 
 To begin using the Foto24 Offers Management App, follow these steps:
 
-### 1. Register an Account
-
-If you haven't already registered, you'll need to create an account to access the app. Follow the registration process to sign up and gain access.
-
-### 2. Clone the Repository
+### 1. Clone the Repository
 
 Clone the repository to your local machine using the following command:
 
+git clone https://github.com/Ianzev/foto24-offers.git
 
+### 2. Log in or Register
 
-## Contributing
+If you haven't already logged in or registered, you'll need to do so to access the app. If you already have an account, simply log in. Otherwise, follow the registration process to sign up and gain access.
 
-Contributions are welcome! If you find any issues or have suggestions for improvements, please feel free to open an issue or submit a pull request.
+![Registration GIF](frontend/gif/loginregpage.gif)
 
 ## License
 
