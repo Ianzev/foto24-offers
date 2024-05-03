@@ -8,8 +8,8 @@ export function Sidebar({ children }) {
   const [expanded, setExpanded] = useState(false)
 
   return (
-    <aside className={`h-screen flex flex-col bg-white border-r shadow-sm`}>
-      <nav className="h-full flex flex-col bg-white border-r shadow-sm">
+    <aside className={`sticky top-0 h-screen ${expanded ? 'w-52' : '0'} flex flex-col bg-white border-r shadow-sm`}>
+      <nav className={`sticky top-0 h-full flex flex-col bg-white border-r shadow-sm`}>
         <div className="p-4 pb-2 flex justify-between items-center">
           <img
             src={foto24Logo}
@@ -41,7 +41,7 @@ export function Sidebar({ children }) {
               <h4 className="font-semibold">Ian Zevallos</h4>
               <span className="text-xs text-gray-600">ian.zevallos.m@gmail.com</span>
             </div>
-            <MoreVertical size={20} />
+            <MoreVertical className="w-[20px] border-l-0" size={20} />
           </div>
         </div>
       </nav>
@@ -68,7 +68,7 @@ export function SidebarItem({ icon, text, active, alert }) {
       {icon}
       <span
         className={`overflow-hidden transition-all ${
-          expanded ? "w-52 ml-3" : "w-0"
+          expanded ? "w-20px ml-3" : "w-0"
         }`}
       >
         {text}

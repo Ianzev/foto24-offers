@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Table,} from 'react-bootstrap';
+import styles from './pages.module.css'
 
 function Offers() {
   const [offers, setOffer] = useState([]);
@@ -18,11 +18,11 @@ function Offers() {
 
   return (
     <>
-          <div className="flex justify-between items-center bg-white w-full p-4 mb-4">
+          <div className={styles['container-title']}>
             <h1 className="text-2xl font-bold">Offers</h1>
           </div>
 
-          <Table striped bordered hover>
+          <table className={styles['items-table']}>
             <thead>
               <tr>
                 <th>ID</th>
@@ -43,7 +43,7 @@ function Offers() {
                 </tr>
               ))}
             </tbody>
-          </Table>
+          </table>
           </>
   );
 }

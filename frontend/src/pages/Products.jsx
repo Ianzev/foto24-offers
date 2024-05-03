@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowBigRight } from "lucide-react"
-import { Table, Button, Pagination} from 'react-bootstrap';
+import styles from './pages.module.css'
 
 
 function ProductsTable() {
@@ -63,14 +63,14 @@ function ProductsTable() {
   return (
     <>
 
-    <div className="flex justify-between items-center bg-white w-full p-4 ">
-        <h1 className="text-2xl font-bold">Products</h1>
-        <Button className=""variant="primary" onClick={handleUpdateStock}>Update</Button>
+    <div className={styles['container-title']}>
+        <h1>Products</h1>
+        <button onClick={handleUpdateStock}>Update</button>
     </div>
 
 
 
-    <Table striped bordered hover>
+    <table className={styles['items-table']}>
       <thead>
         <tr>
           <th  onClick={() => handleSort("id")}>
@@ -143,7 +143,7 @@ function ProductsTable() {
           </tr>
         ))}
       </tbody>
-    </Table>
+    </table>
     </>
   );
 }

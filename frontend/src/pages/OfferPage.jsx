@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeftToLine  } from "lucide-react"; // Assuming you're using Lucide icons
 import { useParams, Link } from 'react-router-dom';
-import { Table } from 'react-bootstrap';
+import styles from './pages.module.css'
 
 function OfferDetails() {
     const { id } = useParams();
@@ -49,56 +49,56 @@ function OfferDetails() {
   
   return (
     <>
-            <div className="flex justify-between items-center bg-white w-full p-4 mb-4">
-          <h1 className="text-2xl font-bold">{offer.name}</h1>
-          <Link to="/offers" className="flex items-center text-indigo-600 hover:text-indigo-800 link">
-              <span className="font-bold mr-2">Back to Offers</span>
-              <ArrowLeftToLine  size={20} />
-            </Link>
-        </div>
-          <Table striped bordered hover>
-            <tbody>
-              <tr>
-                <td className="font-bold px-4 py-2">Start</td>
-                <td className="px-4 py-2">{new Date(offer.start_date).toLocaleDateString()}</td>
-              </tr>
-              <tr>
-                <td className="font-bold px-4 py-2">End</td>
-                <td className="px-4 py-2">{new Date(offer.end_date).toLocaleDateString()}</td>
-              </tr>
-              <tr>
-                <td className="font-bold px-4 py-2">Products</td>
-                <td className="px-4 py-2">{offer.products.length}</td>
-              </tr>
-            </tbody>
-          </Table>
+    <div className={styles['container-title']}>
+      <h1>{offer.name}</h1>
+      <Link className="link" to="/offers">
+        <ArrowLeftToLine className="mr-2" size={20} />  
+        <h2>Back to Offers</h2>
+      </Link>
+    </div>
+    <table className={styles['items-table']}>
+      <tbody>
+        <tr>
+          <th>Start</th>
+          <td>{new Date(offer.start_date).toLocaleDateString()}</td>
+        </tr>
+        <tr>
+          <th>End</th>
+          <td>{new Date(offer.end_date).toLocaleDateString()}</td>
+        </tr>
+        <tr>
+          <th>Products</th>
+          <td>{offer.products.length}</td>
+        </tr>
+      </tbody>
+    </table>
 
-          <div className="p-4 pb-2 flex justify-between items-center bg-white">
-            <h1 className="text-2xl font-bold">Products</h1>
-          </div>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th className="px-4 py-2">SKU</th>
-                <th className="px-4 py-2">Name</th>
-                <th className="px-4 py-2">Price</th>
-                <th className="px-4 py-2">Price reduced</th>
-              </tr>
-            </thead>
-            <tbody>
-              {finalProductsArray.map(product => (
-                <tr key={product.sku}>
-                  <td className="px-4 py-2">
-                  <Link className="link" to={`/products/${product.sku}`}>{product.sku}</Link>
-                    </td>
-                  <td className="px-4 py-2">{product.name}</td>
-                  <td className="px-4 py-2">{product.price}</td>
-                  <td className="px-4 py-2">{product.priceReduced}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table> 
-          </>
+    <div className={styles['container-title']}>
+      <h1>Products</h1>
+    </div>
+    <table className={styles['items-table']}>
+      <thead>
+        <tr>
+          <th>SKU</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Price reduced</th>
+        </tr>
+      </thead>
+      <tbody>
+        {finalProductsArray.map(product => (
+          <tr key={product.sku}>
+            <td>
+            <Link className="link" to={`/products/${product.sku}`}>{product.sku}</Link>
+              </td>
+            <td>{product.name}</td>
+            <td>{product.price}</td>
+            <td>{product.priceReduced}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table> 
+    </>
   );
 }
 
