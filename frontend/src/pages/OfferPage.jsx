@@ -14,7 +14,7 @@ function OfferDetails() {
         .then(data => {
             setOffer(data);
         })
-        fetch(`http://localhost:3001/products`)
+        fetch(`http://localhost:3001/offers/${id}/products`)
         .then(response => response.json())
         .then(productsData => {
             setProducts(productsData);
@@ -23,6 +23,7 @@ function OfferDetails() {
             console.error('Error fetching offer details:', error);
         });
     }, [id]);
+    console.log(products)
 
     if (!offer) {
         return <div>Loading...</div>;
@@ -40,10 +41,10 @@ function OfferDetails() {
   const finalProductsArray = offer.products.map(item => {
       const additionalInfo = secondArrayMap[item.sku];
       return {
-          sku: item.sku,
-          priceReduced: item.price,
-          name: additionalInfo ? additionalInfo.name : '', // If additionalInfo exists, get the name, otherwise use an empty string
-          price: additionalInfo ? additionalInfo.price : '' // If additionalInfo exists, get the price, otherwise use an empty string
+        sku: item.sku,
+        priceReduced: item.price,
+        name: additionalInfo ? additionalInfo.name : '', // If additionalInfo exists, get the name, otherwise use an empty string
+        price: additionalInfo ? additionalInfo.price : '', // If additionalInfo exists, get the price, otherwise use an empty string
       };
   });
   
@@ -90,7 +91,7 @@ function OfferDetails() {
           <tr key={product.sku}>
             <td>
             <Link className="link" to={`/products/${product.sku}`}>{product.sku}</Link>
-              </td>
+            </td>
             <td>{product.name}</td>
             <td>{product.price}</td>
             <td>{product.priceReduced}</td>

@@ -68,3 +68,24 @@
 .container-title h2 {
     font-weight: bold;
 }
+
+.btn-paginations{
+    width: 50px;
+    height: 50px;
+    margin: 10px 5px 10px;
+    font-size: 1rem;
+    background-color:  #dcd1ff;
+}
+
+.btn-paginations:hover{
+    background-color: #cabbfa;
+}
+
+.btn-paginations.active{
+    background-color: #b09af7;
+}
+.btn-pagination-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

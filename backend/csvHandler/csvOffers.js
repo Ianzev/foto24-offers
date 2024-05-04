@@ -39,10 +39,10 @@ async function insertOfferData(csvFilename, offerName, startDate, endDate) {
 // Usage
 async function main() {
   try {
-    const csvFilename = "csvFiles/rebajas-invierno.csv";
-    const offerName = "Rebajas Invierno 2024"; // Manually provide the offer name
-    const startDate = "2023-01-18"; // Manually provide the start date
-    const endDate = "2023-03-31"; // Manually provide the end date
+    const csvFilename = "csvFiles/san-valentin.csv";
+    const offerName = "San Valentin 2024"; // Manually provide the offer name
+    const startDate = "2024-02-07"; // Manually provide the start date
+    const endDate = "2024-02-14"; // Manually provide the end date
     await insertOfferData(csvFilename, offerName, startDate, endDate); // Insert data from CSV with specified parameters
   } catch (error) {
     console.error("Error:", error);

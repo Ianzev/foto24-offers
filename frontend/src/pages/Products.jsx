@@ -2,12 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowBigRight } from "lucide-react"
 import styles from './pages.module.css'
+import Pagination from './Components/Pagination.jsx';
 
 
 function ProductsTable() {
   const [products, setProducts] = useState([]);
   const [sortBy, setSortBy] = useState("id"); // Default sort by id
   const [sortOrder, setSortOrder] = useState("asc"); // Default sort order ascending
+  const [loading, setLoading] = useState(false); // Loading state
+
+  const [currentPage, setCurrentPage] = useState(1); // page paginations
+  const [productsPerPage, setProductsPerPage] = useState(50); // products per page
+
+  const lastPostIndex = currentPage * productsPerPage;
+  const firstPostIndex = lastPostIndex - productsPerPage;
+  const currentProducts = products.slice(firstPostIndex, lastPostIndex);
 
   useEffect(() => {
     fetch('http://localhost:3001/products')
@@ -21,6 +30,7 @@ function ProductsTable() {
   }, []);
 
   const handleUpdateStock = async () => {
+    setLoading(true); // Set loading to true when updating stock
     try {
       await fetch('http://localhost:3001/products/updatestock', { method: 'PUT' });
       // After updating stock, fetch products again to update the UI
@@ -29,6 +39,7 @@ function ProductsTable() {
       setProducts(data);
     } catch (error) {
       console.error('Error updating stock:', error);
+      setLoading(false);
     }
   };
 
@@ -43,7 +54,7 @@ function ProductsTable() {
     }
   };
 
-  const sortedProducts = products.slice().sort((a, b) => {
+  const sortedProducts = currentProducts.slice().sort((a, b) => {
     let aValue = a[sortBy];
     let bValue = b[sortBy];
     
@@ -67,8 +78,8 @@ function ProductsTable() {
         <h1>Products</h1>
         <button onClick={handleUpdateStock}>Update</button>
     </div>
-
-
+    
+    {loading && <div className={styles.loading}>Loading...</div>}
 
     <table className={styles['items-table']}>
       <thead>
@@ -144,6 +155,7 @@ function ProductsTable() {
         ))}
       </tbody>
     </table>
+    <Pagination postPerPage={productsPerPage} totalPosts={products.length} setCurrentPage={setCurrentPage} currentPage={currentPage}/>
     </>
   );
 }
