@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ArrowLeftToLine  } from "lucide-react"; // Assuming you're using Lucide icons
 import { useParams, Link } from 'react-router-dom';
 import styles from './pages.module.css'
+import csvFunctions from './Utilities/arrayToCSV'; 
 
 function OfferDetails() {
     const { id } = useParams();
@@ -23,7 +24,6 @@ function OfferDetails() {
             console.error('Error fetching offer details:', error);
         });
     }, [id]);
-    console.log(products)
 
     if (!offer) {
         return <div>Loading...</div>;
@@ -36,18 +36,21 @@ function OfferDetails() {
       map[obj.sku] = obj;
       return map;
   }, {});
-  
+
   // Create the final array by combining data from both arrays
   const finalProductsArray = offer.products.map(item => {
       const additionalInfo = secondArrayMap[item.sku];
       return {
         sku: item.sku,
-        priceReduced: item.price,
         name: additionalInfo ? additionalInfo.name : '', // If additionalInfo exists, get the name, otherwise use an empty string
         price: additionalInfo ? additionalInfo.price : '', // If additionalInfo exists, get the price, otherwise use an empty string
+        priceReduced: item.price,
+        brand: additionalInfo ? additionalInfo.brand : '', // If additionalInfo exists
       };
   });
   
+  console.log(finalProductsArray);
+
   return (
     <>
     <div className={styles['container-title']}>
@@ -76,6 +79,9 @@ function OfferDetails() {
 
     <div className={styles['container-title']}>
       <h1>Products</h1>
+      <button onClick={() => {
+        const csvContent = csvFunctions.convertArrayOfObjectsToCSV(finalProductsArray);
+        csvFunctions.downloadCSV(csvContent, `${offer.name}.csv`); }}>CSV</button>
     </div>
     <table className={styles['items-table']}>
       <thead>
@@ -84,6 +90,7 @@ function OfferDetails() {
           <th>Name</th>
           <th>Price</th>
           <th>Price reduced</th>
+          <th>Brand</th>
         </tr>
       </thead>
       <tbody>
@@ -95,6 +102,7 @@ function OfferDetails() {
             <td>{product.name}</td>
             <td>{product.price}</td>
             <td>{product.priceReduced}</td>
+            <td>{product.brand}</td>
           </tr>
         ))}
       </tbody>

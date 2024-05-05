@@ -9,14 +9,13 @@ function ProductsTable() {
   const [products, setProducts] = useState([]);
   const [sortBy, setSortBy] = useState("id"); // Default sort by id
   const [sortOrder, setSortOrder] = useState("asc"); // Default sort order ascending
-  const [loading, setLoading] = useState(false); // Loading state
 
   const [currentPage, setCurrentPage] = useState(1); // page paginations
   const [productsPerPage, setProductsPerPage] = useState(50); // products per page
 
   const lastPostIndex = currentPage * productsPerPage;
   const firstPostIndex = lastPostIndex - productsPerPage;
-  const currentProducts = products.slice(firstPostIndex, lastPostIndex);
+  
 
   useEffect(() => {
     fetch('http://localhost:3001/products')
@@ -30,7 +29,6 @@ function ProductsTable() {
   }, []);
 
   const handleUpdateStock = async () => {
-    setLoading(true); // Set loading to true when updating stock
     try {
       await fetch('http://localhost:3001/products/updatestock', { method: 'PUT' });
       // After updating stock, fetch products again to update the UI
@@ -39,7 +37,6 @@ function ProductsTable() {
       setProducts(data);
     } catch (error) {
       console.error('Error updating stock:', error);
-      setLoading(false);
     }
   };
 
@@ -52,9 +49,10 @@ function ProductsTable() {
       setSortBy(criteria);
       setSortOrder("asc");
     }
+    setCurrentPage(1)
   };
 
-  const sortedProducts = currentProducts.slice().sort((a, b) => {
+  const sortedProducts = products.slice().sort((a, b) => {
     let aValue = a[sortBy];
     let bValue = b[sortBy];
     
@@ -69,7 +67,9 @@ function ProductsTable() {
     } else {
       return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
     }
+
   });
+  const currentProducts = sortedProducts.slice(firstPostIndex, lastPostIndex);
 
   return (
     <>
@@ -78,8 +78,6 @@ function ProductsTable() {
         <h1>Products</h1>
         <button onClick={handleUpdateStock}>Update</button>
     </div>
-    
-    {loading && <div className={styles.loading}>Loading...</div>}
 
     <table className={styles['items-table']}>
       <thead>
@@ -132,9 +130,9 @@ function ProductsTable() {
         </tr>
       </thead>
       <tbody>
-        {sortedProducts.map(product => (
+        {currentProducts.map(product => (
           <tr key={product.sku}>
-            <td>{product.id}</td>
+            <td>{product.idnext}</td>
             <td>
               <Link className='link' to={`/products/${product.sku}`}>{product.sku}</Link>
             </td>

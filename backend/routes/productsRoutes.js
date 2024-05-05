@@ -49,12 +49,13 @@ router.put("/updatestock", async (req, res) => {
           [updatedStockQmedia, sku]
         );
 
-        // // Update the name data
+        // Update the name data
         // const updatedName = productData.name || "";
-        // await client.query(
-        //   "UPDATE products SET name = $1 WHERE sku = $2",
-        //   [updatedName, sku]
-        // );
+        // console.log(updatedName);
+        // await client.query("UPDATE products SET name = $1 WHERE sku = $2", [
+        //   updatedName,
+        //   sku,
+        // ]);
 
         // Update sales data
         const sales1 = productData.stats_sold["1"]?.units_sold ?? 0;

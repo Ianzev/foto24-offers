@@ -58,7 +58,7 @@ async function insertProductData(csvFilename) {
 // Usage
 async function main() {
   try {
-    const csvFilename = "csvFiles/Products2.csv";
+    const csvFilename = "csvFiles/genesis.csv";
     await insertProductData(csvFilename); // Insert data from CSV
   } catch (error) {
     console.error("Error:", error);
