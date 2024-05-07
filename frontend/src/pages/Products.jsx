@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+
+import Pagination from './Components/Pagination.jsx'; //COMPONENT
+import Button from './Button'; //COMPONENT
+
 import { ArrowBigRight } from "lucide-react"
 import styles from './pages.module.css'
-import Pagination from './Components/Pagination.jsx';
+import { fetchAllProducts, handleUpdateStock } from './Utilities/Fetching/fetchProducts.js';
+import { handleSort, sortedProducts } from './Utilities/Fetching/sortingMechanism.js';
 
 
 function ProductsTable() {
   const [products, setProducts] = useState([]);
+
   const [sortBy, setSortBy] = useState("id"); // Default sort by id
   const [sortOrder, setSortOrder] = useState("asc"); // Default sort order ascending
 
@@ -15,30 +21,11 @@ function ProductsTable() {
 
   const lastPostIndex = currentPage * productsPerPage;
   const firstPostIndex = lastPostIndex - productsPerPage;
-  
 
-  useEffect(() => {
-    fetch('http://localhost:3001/products')
-      .then(response => response.json())
-      .then(data => {
-        setProducts(data);
-      })
-      .catch(error => {
-        console.error('Error fetching products:', error);
-      });
-  }, []);
+  const allProducts = fetchAllProducts(setProducts)
 
-  const handleUpdateStock = async () => {
-    try {
-      await fetch('http://localhost:3001/products/updatestock', { method: 'PUT' });
-      // After updating stock, fetch products again to update the UI
-      const response = await fetch('http://localhost:3001/products');
-      const data = await response.json();
-      setProducts(data);
-    } catch (error) {
-      console.error('Error updating stock:', error);
-    }
-  };
+  // const handleSort = handleSort(criteria, setSortBy, setSortOrder)
+  // const sortedProducts = sortedProducts(products)
 
   const handleSort = (criteria) => {
     if (sortBy === criteria) {
@@ -69,14 +56,15 @@ function ProductsTable() {
     }
 
   });
+
   const currentProducts = sortedProducts.slice(firstPostIndex, lastPostIndex);
 
   return (
     <>
 
     <div className={styles['container-title']}>
-        <h1>Products</h1>
-        <button onClick={handleUpdateStock}>Update</button>
+      <h1>Products</h1>
+      <Button text="Update" action = {handleUpdateStock} />
     </div>
 
     <table className={styles['items-table']}>

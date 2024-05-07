@@ -1,29 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowLeftToLine  } from "lucide-react"; // Assuming you're using Lucide icons
+import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+
+import Button from './Button'; //COMPONENT
+import GoBackArrow from './GoBackArrow'; //COMPONENT
+
 import styles from './pages.module.css'
-import csvFunctions from './Utilities/arrayToCSV'; 
+import csvFunctions from './Utilities/arrayToCSV';
+import { fetchOfferDetails, fetchOfferProducts } from './Utilities/Fetching/fetchOffers';
 
 function OfferDetails() {
     const { id } = useParams();
     const [offer, setOffer] = useState(null);
     const [products, setProducts] = useState(null);
 
-    useEffect(() => {
-        fetch(`http://localhost:3001/offers/${id}`)
-        .then(response => response.json())
-        .then(data => {
-            setOffer(data);
-        })
-        fetch(`http://localhost:3001/offers/${id}/products`)
-        .then(response => response.json())
-        .then(productsData => {
-            setProducts(productsData);
-        })
-        .catch(error => {
-            console.error('Error fetching offer details:', error);
-        });
-    }, [id]);
+    const offerDetails = fetchOfferDetails(setOffer, id);
+    const offerProducts = fetchOfferProducts(setProducts, id);
 
     if (!offer) {
         return <div>Loading...</div>;
@@ -48,18 +39,14 @@ function OfferDetails() {
         brand: additionalInfo ? additionalInfo.brand : '', // If additionalInfo exists
       };
   });
-  
-  console.log(finalProductsArray);
 
   return (
     <>
     <div className={styles['container-title']}>
       <h1>{offer.name}</h1>
-      <Link className="link" to="/offers">
-        <ArrowLeftToLine className="mr-2" size={20} />  
-        <h2>Back to Offers</h2>
-      </Link>
+      <GoBackArrow text="Back to Offers" backTo="offers"/>
     </div>
+
     <table className={styles['items-table']}>
       <tbody>
         <tr>
@@ -78,11 +65,13 @@ function OfferDetails() {
     </table>
 
     <div className={styles['container-title']}>
-      <h1>Products</h1>
-      <button onClick={() => {
-        const csvContent = csvFunctions.convertArrayOfObjectsToCSV(finalProductsArray);
-        csvFunctions.downloadCSV(csvContent, `${offer.name}.csv`); }}>CSV</button>
+      <h1>Sales</h1>
+      <Button text="CSV"
+              action = {() => {
+                const csvContent = csvFunctions.convertArrayOfObjectsToCSV(finalProductsArray);
+                csvFunctions.downloadCSV(csvContent, `${offer.name}.csv`)}} />
     </div>
+
     <table className={styles['items-table']}>
       <thead>
         <tr>

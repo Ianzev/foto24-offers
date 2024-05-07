@@ -1,23 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowLeftToLine  } from "lucide-react"; // Assuming you're using Lucide icons
-import { useParams, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
+
+import GoBackArrow from './GoBackArrow'; //COMPONENT
+
 import { ArrowBigRight } from "lucide-react"
 import styles from './pages.module.css'
+import { fetchProductDetails } from './Utilities/Fetching/fetchProducts';
 
 function ProductDetails() {
   const { sku } = useParams();
   const [product, setProduct] = useState(null);
 
-  useEffect(() => {
-    fetch(`http://localhost:3001/products/${sku}`)
-      .then(response => response.json())
-      .then(data => {
-        setProduct(data);
-      })
-      .catch(error => {
-        console.error('Error fetching product details:', error);
-      });
-  }, [sku]);
+  const productDetails = fetchProductDetails(setProduct, sku);
 
   if (!product) {
     return <div>Loading...</div>;
@@ -27,13 +21,15 @@ function ProductDetails() {
     <>
     <div className={styles['container-title']}>
       <h1>{product.name}</h1>
-      <Link to="/products">
-        <ArrowLeftToLine className="mr-2" size={20} />
-          <h2>Back to Products</h2>
-      </Link>
+      <GoBackArrow text="Back to Products" backTo="products"/>
     </div>
+
     <table className={styles['items-table']}>
-      <tbody> 
+      <tbody>
+        <tr>
+          <th>ID</th>
+          <td>{product.idnext}</td>
+        </tr> 
         <tr>
           <th>Brand</th>
           <td>{product.brand}</td>
@@ -68,9 +64,11 @@ function ProductDetails() {
         </tr>
       </tbody>
     </table>
+
     <div className={styles['container-title']}>
       <h1>Sales</h1>
     </div>
+
     <table className={styles['items-table']}>
       <thead>
         <tr>
