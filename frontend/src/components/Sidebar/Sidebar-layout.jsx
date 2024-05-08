@@ -1,15 +1,21 @@
-import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react"
-import { useContext, createContext, useState } from "react"
-import foto24Logo from '../../assets/images/foto24_logo.png';
+import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
+import { useContext, createContext, useState } from "react";
+import foto24Logo from "../../assets/images/foto24_logo.png";
 
-const SidebarContext = createContext()
+const SidebarContext = createContext();
 
 export function Sidebar({ children }) {
-  const [expanded, setExpanded] = useState(false)
+  const [expanded, setExpanded] = useState(false);
 
   return (
-    <aside className={`sticky top-0 h-screen ${expanded ? 'w-52' : '0'} flex flex-col bg-white border-r shadow-sm`}>
-      <nav className={`sticky top-0 h-full flex flex-col bg-white border-r shadow-sm`}>
+    <aside
+      className={`sticky top-0 h-screen ${
+        expanded ? "w-52" : "0"
+      } flex flex-col bg-white border-r shadow-sm`}
+    >
+      <nav
+        className={`sticky top-0 h-full flex flex-col bg-white border-r shadow-sm`}
+      >
         <div className="p-4 pb-2 flex justify-between items-center">
           <img
             src={foto24Logo}
@@ -22,7 +28,7 @@ export function Sidebar({ children }) {
             onClick={() => setExpanded((curr) => !curr)}
             className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
           >
-            {expanded ? <ChevronFirst/> : <ChevronLast/>}
+            {expanded ? <ChevronFirst /> : <ChevronLast />}
           </button>
         </div>
 
@@ -30,7 +36,7 @@ export function Sidebar({ children }) {
           <ul className="flex-1 px-3">{children}</ul>
         </SidebarContext.Provider>
 
-        <div className={`border-t ${expanded ? 'flex' : 'hidden'} p-3`}>
+        <div className={`border-t ${expanded ? "flex" : "hidden"} p-3`}>
           <div
             className={`
               flex justify-between items-center
@@ -39,18 +45,20 @@ export function Sidebar({ children }) {
           >
             <div className="leading-4">
               <h4 className="font-semibold">Ian Zevallos</h4>
-              <span className="text-xs text-gray-600">ian.zevallos.m@gmail.com</span>
+              <span className="text-xs text-gray-600">
+                ian.zevallos.m@gmail.com
+              </span>
             </div>
             <MoreVertical className="w-[20px] border-l-0" size={20} />
           </div>
         </div>
       </nav>
     </aside>
-  )
+  );
 }
 
 export function SidebarItem({ icon, text, active, alert }) {
-  const { expanded } = useContext(SidebarContext)
+  const { expanded } = useContext(SidebarContext);
 
   return (
     <li
@@ -95,5 +103,5 @@ export function SidebarItem({ icon, text, active, alert }) {
         </div>
       )}
     </li>
-  )
+  );
 }

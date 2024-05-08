@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
 import Login from "./Login";
 import Register from "./Register";
+import Alert from "../../components/Alert/Alert.jsx";
 import styles from "./style.module.css"; // Importing CSS module
 import foto24LogoWhite from "./images/foto24-logo-white.png";
-import Alert from "../components/Alert.jsx";
 
 const LoginContainer = ({ isLoginFormProp }) => {
   const [isLoginForm, setIsLoginForm] = useState(isLoginFormProp);
