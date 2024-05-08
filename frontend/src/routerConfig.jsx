@@ -6,7 +6,7 @@ import ProductDetails from './pages/ProductPage.jsx';
 import Offers from './pages/Offers.jsx';
 import OfferDetails from './pages/OfferPage.jsx';
 import LoginContainer from './pages/Login/LoginContainer.jsx';
-import Layout from './pages/Components/Layout.jsx';
+import Layout from './pages/components/Layout.jsx';
 
 // Wrapper component to conditionally render Layout
 const RouteWrapper = ({ element }) => {

@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 import GoBackArrow from './GoBackArrow'; //COMPONENT
 
-import styles from './pages.module.css'
-import { fetchAllOffers } from './Utilities/Fetching/fetchOffers';
+import styles from '../assets/styles/pages.module.css'
+import { fetchAllOffers } from './Utilities/fetching/fetchOffers';
 
 function Offers() {
   const [offers, setOffers] = useState([]);

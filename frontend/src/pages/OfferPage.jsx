@@ -4,9 +4,9 @@ import { useParams, Link } from 'react-router-dom';
 import Button from './Button'; //COMPONENT
 import GoBackArrow from './GoBackArrow'; //COMPONENT
 
-import styles from './pages.module.css'
+import styles from '../assets/styles/pages.module.css'
 import csvFunctions from './Utilities/arrayToCSV';
-import { fetchOfferDetails, fetchOfferProducts } from './Utilities/Fetching/fetchOffers';
+import { fetchOfferDetails, fetchOfferProducts } from './Utilities/fetching/fetchOffers';
 
 function OfferDetails() {
     const { id } = useParams();

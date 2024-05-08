@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from '../pages.module.css'
+import styles from '../../assets/styles/pages.module.css'
 
 const Pagination = ({ totalPosts, postPerPage, setCurrentPage, currentPage }) => {
   let pages = [];

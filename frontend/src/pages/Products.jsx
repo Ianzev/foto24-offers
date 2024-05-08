@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import Pagination from './Components/Pagination.jsx'; //COMPONENT
+import Pagination from './components/Pagination.jsx'; //COMPONENT
 import Button from './Button'; //COMPONENT
 
 import { ArrowBigRight } from "lucide-react"
-import styles from './pages.module.css'
-import { fetchAllProducts, handleUpdateStock } from './Utilities/Fetching/fetchProducts.js';
-import { handleSort, sortedProducts } from './Utilities/Fetching/sortingMechanism.js';
+import styles from '../assets/styles/pages.module.css'
+import { fetchAllProducts, handleUpdateStock } from './Utilities/fetching/fetchProducts.js';
+import { handleSort, sortedProducts } from './Utilities/fetching/sortingMechanism.js';
 
 
 function ProductsTable() {

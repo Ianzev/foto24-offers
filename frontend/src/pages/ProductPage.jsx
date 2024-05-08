@@ -4,8 +4,8 @@ import { useParams } from 'react-router-dom';
 import GoBackArrow from './GoBackArrow'; //COMPONENT
 
 import { ArrowBigRight } from "lucide-react"
-import styles from './pages.module.css'
-import { fetchProductDetails } from './Utilities/Fetching/fetchProducts';
+import styles from '../assets/styles/pages.module.css'
+import { fetchProductDetails } from './Utilities/fetching/fetchProducts';
 
 function ProductDetails() {
   const { sku } = useParams();

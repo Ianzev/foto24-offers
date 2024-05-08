@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import styles from './alerts.module.css';
+import styles from '../../assets/styles/alerts.module.css';
 
 const Alert = ({ message, result }) => {
     const [showAlert, setShowAlert] = useState(true);
@@ -14,20 +14,20 @@ const Alert = ({ message, result }) => {
 
     return (
         <>
-            {(showAlert) && (
-                result ? (
-                    <div className={`${styles["custom-alert"]} ${styles.success}`}>
-                        <span className={styles.close} onClick={handleClose}>&times;</span>
-                        {message}
-                    </div>
-                ) : (
-                    <div className={`${styles["custom-alert"]} ${styles.error}`}>
-                        <span className={styles.close} onClick={handleClose}>&times;</span>
-                        {message}
-                    </div>
-                )
+        {(showAlert) && (
+            result ? (
+                <div className={`${styles["custom-alert"]} ${styles.success}`}>
+                    <span className={styles.close} onClick={handleClose}>&times;</span>
+                    {message}
+                </div>
+            ) : (
+                <div className={`${styles["custom-alert"]} ${styles.error}`}>
+                    <span className={styles.close} onClick={handleClose}>&times;</span>
+                    {message}
+                </div>
+            )
 
-            )}
+        )}
         </>
     );
 };
