@@ -1,0 +1,18 @@
+.filter-bar{
+    background-color: white;
+    display: inline-block;
+    border: 1px solid #dee2e6;
+    margin: 5px;
+    border-radius: 5%;         
+    padding: 10px 20px 20px 20px;       
+}
+#filter-bar-title{
+    border-bottom: 1px solid #dee2e6;
+}
+#filter-bar-title p{
+    font-size: 2rem;
+}
+.filter-selection section h1{
+    color: grey;
+    margin: 5px 0 5px 0;
+}

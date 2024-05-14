@@ -1,8 +1,13 @@
+import Filter from "../components/Filter";
+import { filterValuesData } from "../utils/filterValuesData";
 
-function HomePage(){
-    return(
-        <>
-        </>
-    )
+let filterValues = filterValuesData;
+
+function HomePage() {
+  return (
+    <>
+      <Filter entries={filterValues} />
+    </>
+  );
 }
-export default HomePage
+export default HomePage;

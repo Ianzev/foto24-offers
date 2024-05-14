@@ -1,4 +1,11 @@
-export function handleSort(criteria, setSortBy, setSortOrder) {
+export const handleSort = (
+  criteria,
+  sortBy,
+  setSortBy,
+  sortOrder,
+  setSortOrder,
+  setCurrentPage
+) => {
   if (sortBy === criteria) {
     // If already sorted by the same criteria, toggle the order
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
@@ -8,10 +15,10 @@ export function handleSort(criteria, setSortBy, setSortOrder) {
     setSortOrder("asc");
   }
   setCurrentPage(1);
-}
+};
 
-export function sortedProducts(products) {
-  products.slice().sort((a, b) => {
+export const sortProducts = (products, sortBy, sortOrder) => {
+  return products.slice().sort((a, b) => {
     let aValue = a[sortBy];
     let bValue = b[sortBy];
 
@@ -27,4 +34,4 @@ export function sortedProducts(products) {
       return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
     }
   });
-}
+};

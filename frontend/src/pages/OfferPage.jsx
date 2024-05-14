@@ -1,16 +1,23 @@
 import React, { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import Button from "../components/ui/Button"; //COMPONENT
-import GoBackArrow from "../components/ui/GoBackArrow"; //COMPONENT
+//COMPONENT
+import Button from "../components/ui/Button";
+import GoBackArrow from "../components/ui/GoBackArrow";
+import TitleHeader from "../components/ui/TitleHeader";
+import TableData from "../components/TableData";
+import Table from "../components/Table";
+import TableVertical from "../components/TableVertical";
 
-import styles from "./styles/pages.module.css";
 import csvFunctions from "../utils/arrayToCSV";
 import {
   fetchOfferDetails,
   fetchOfferProducts,
 } from "../utils/fetching/fetchOffers";
-import Header from "../components/ui/Header";
+import {
+  offerPageProductsColumns,
+  offerPageVerticalColumns,
+} from "../utils/tableColumnsData";
 
 function OfferDetails() {
   const { id } = useParams();
@@ -19,6 +26,9 @@ function OfferDetails() {
 
   const offerDetails = fetchOfferDetails(setOffer, id);
   const offerProducts = fetchOfferProducts(setProducts, id);
+
+  const columnsVertical = offerPageVerticalColumns;
+  const columnsProducts = offerPageProductsColumns;
 
   if (!offer) {
     return <div>Loading...</div>;
@@ -46,28 +56,15 @@ function OfferDetails() {
 
   return (
     <>
-      <Header text={offer.name}>
+      <TitleHeader text={offer.name}>
         <GoBackArrow text="Back to Offers" backTo="offers" />
-      </Header>
+      </TitleHeader>
 
-      <table className={styles["items-table"]}>
-        <tbody>
-          <tr>
-            <th>Start</th>
-            <td>{new Date(offer.start_date).toLocaleDateString()}</td>
-          </tr>
-          <tr>
-            <th>End</th>
-            <td>{new Date(offer.end_date).toLocaleDateString()}</td>
-          </tr>
-          <tr>
-            <th>Products</th>
-            <td>{offer.products.length}</td>
-          </tr>
-        </tbody>
-      </table>
+      <Table>
+        <TableVertical entry={offer} columns={columnsVertical} />
+      </Table>
 
-      <Header text="Sales">
+      <TitleHeader text="Sales">
         <Button
           text="CSV"
           action={() => {
@@ -76,34 +73,11 @@ function OfferDetails() {
             csvFunctions.downloadCSV(csvContent, `${offer.name}.csv`);
           }}
         />
-      </Header>
+      </TitleHeader>
 
-      <table className={styles["items-table"]}>
-        <thead>
-          <tr>
-            <th>SKU</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Price reduced</th>
-            <th>Brand</th>
-          </tr>
-        </thead>
-        <tbody>
-          {finalProductsArray.map((product) => (
-            <tr key={product.sku}>
-              <td>
-                <Link className="link" to={`/products/${product.sku}`}>
-                  {product.sku}
-                </Link>
-              </td>
-              <td>{product.name}</td>
-              <td>{product.price}</td>
-              <td>{product.priceReduced}</td>
-              <td>{product.brand}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Table>
+        <TableData entries={finalProductsArray} columns={columnsProducts} />
+      </Table>
     </>
   );
 }

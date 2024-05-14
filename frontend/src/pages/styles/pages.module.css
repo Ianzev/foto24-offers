@@ -68,4 +68,6 @@
 .container-title h2 {
     font-weight: bold;
 }
-
+.items-table th.sorted{
+    background-color: #b09af7;
+}

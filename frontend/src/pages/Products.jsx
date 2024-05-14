@@ -1,21 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 
-import Pagination from "../components/Pagination/Pagination.jsx"; //COMPONENT
-import Button from "../components/ui/Button.jsx"; //COMPONENT
-import Header from "../components/ui/Header.jsx"; //COMPONENT
-
-import { ArrowBigRight } from "lucide-react";
-import styles from "./styles/pages.module.css";
+//COMPONENTS
+import Pagination from "../components/Pagination/Pagination.jsx";
+import Button from "../components/ui/Button.jsx";
+import TitleHeader from "../components/ui/TitleHeader.jsx";
+import TableHeader from "../components/TableHeader.jsx";
+import TableData from "../components/TableData.jsx";
+import Table from "../components/Table.jsx";
+import GoBackArrow from "../components/ui/GoBackArrow.jsx";
+import Filter, { filterValuesData } from "../components/Filter.jsx";
 
 import {
   fetchAllProducts,
   handleUpdateStock,
 } from "../utils/fetching/fetchProducts.js";
-import {
-  handleSort,
-  sortedProducts,
-} from "../utils/fetching/sortingMechanism.js";
+import { filterProductsByBrand } from "../utils/filteringProducts.js";
+
+import { handleSort, sortProducts } from "./../utils/sortingMechanism";
+import { productsColumns } from "../utils/tableColumnsData.js";
 
 function ProductsTable() {
   const [products, setProducts] = useState([]);
@@ -31,138 +33,47 @@ function ProductsTable() {
 
   const allProducts = fetchAllProducts(setProducts);
 
-  // const handleSort = handleSort(criteria, setSortBy, setSortOrder)
-  // const sortedProducts = sortedProducts(products)
-
-  const handleSort = (criteria) => {
-    if (sortBy === criteria) {
-      // If already sorted by the same criteria, toggle the order
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      // If sorting by a new criteria, set the new criteria and default to ascending order
-      setSortBy(criteria);
-      setSortOrder("asc");
-    }
-    setCurrentPage(1);
+  const handleSortClick = (criteria) => {
+    handleSort(
+      criteria,
+      sortBy,
+      setSortBy,
+      sortOrder,
+      setSortOrder,
+      setCurrentPage
+    );
   };
 
-  const sortedProducts = products.slice().sort((a, b) => {
-    let aValue = a[sortBy];
-    let bValue = b[sortBy];
+  const sortedProducts = sortProducts(products, sortBy, sortOrder);
 
-    // Convert price values to numbers for correct sorting
-    if (sortBy === "price") {
-      aValue = parseFloat(aValue.replace(/[^\d.-]/g, ""));
-      bValue = parseFloat(bValue.replace(/[^\d.-]/g, ""));
-    }
+  const currentProducts = sortedProducts.slice(firstPostIndex, lastPostIndex); //PAGINATION
 
-    if (sortOrder === "asc") {
-      return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-    } else {
-      return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
-    }
-  });
+  const columns = productsColumns; // TABLE COLUMN HEADINGS
 
-  const currentProducts = sortedProducts.slice(firstPostIndex, lastPostIndex);
+  const filterValues = filterValuesData;
+
+  // const filterProducts = () => {
+  //   filterProductsByBrand(products, "", setCurrentPage, setProducts, 900, 1300);
+  // };
 
   return (
     <>
-      <Header text="Products">
+      <TitleHeader text="Products">
+        {/* <Button text="GODOX" action={filterProducts} /> */}
         <Button text="Update" action={handleUpdateStock} />
-      </Header>
+        <GoBackArrow text="Home Page" backTo="" />
+      </TitleHeader>
+      <Filter entries={filterValues} />
+      <Table>
+        <TableHeader
+          columns={columns}
+          action={handleSortClick}
+          sortBy={sortBy}
+          sortOrder={sortOrder}
+        />
+        <TableData entries={currentProducts} columns={columns} />
+      </Table>
 
-      <table className={styles["items-table"]}>
-        <thead>
-          <tr>
-            <th onClick={() => handleSort("id")}>
-              ID {sortBy === "id" && (sortOrder === "asc" ? "▲" : "▼")}
-            </th>
-            <th onClick={() => handleSort("sku")}>
-              SKU {sortBy === "sku" && (sortOrder === "asc" ? "▲" : "▼")}
-            </th>
-            <th onClick={() => handleSort("name")}>
-              Name {sortBy === "name" && (sortOrder === "asc" ? "▲" : "▼")}
-            </th>
-            <th onClick={() => handleSort("price")}>
-              Price {sortBy === "price" && (sortOrder === "asc" ? "▲" : "▼")}
-            </th>
-            <th onClick={() => handleSort("foto24")}>
-              Foto24 {sortBy === "foto24" && (sortOrder === "asc" ? "▲" : "▼")}
-            </th>
-            <th onClick={() => handleSort("photo24")}>
-              Photo24{" "}
-              {sortBy === "photo24" && (sortOrder === "asc" ? "▲" : "▼")}
-            </th>
-            <th onClick={() => handleSort("stockmalaga")}>
-              Malaga{" "}
-              {sortBy === "stockmalaga" && (sortOrder === "asc" ? "▲" : "▼")}
-            </th>
-            <th onClick={() => handleSort("stockqmedia")}>
-              Qmedia{" "}
-              {sortBy === "stockqmedia" && (sortOrder === "asc" ? "▲" : "▼")}
-            </th>
-            <th onClick={() => handleSort("sales1")}>
-              1 day {sortBy === "sales1" && (sortOrder === "asc" ? "▲" : "▼")}
-            </th>
-            <th onClick={() => handleSort("sales10")}>
-              10 days{" "}
-              {sortBy === "sales10" && (sortOrder === "asc" ? "▲" : "▼")}
-            </th>
-            <th onClick={() => handleSort("sales30")}>
-              30 days{" "}
-              {sortBy === "sales30" && (sortOrder === "asc" ? "▲" : "▼")}
-            </th>
-            <th onClick={() => handleSort("sales90")}>
-              90 days{" "}
-              {sortBy === "sales90" && (sortOrder === "asc" ? "▲" : "▼")}
-            </th>
-            <th onClick={() => handleSort("sales180")}>
-              180 days{" "}
-              {sortBy === "sales180" && (sortOrder === "asc" ? "▲" : "▼")}
-            </th>
-            <th onClick={() => handleSort("sales365")}>
-              365 days{" "}
-              {sortBy === "sales365" && (sortOrder === "asc" ? "▲" : "▼")}
-            </th>
-            <th onClick={() => handleSort("brand")}>
-              Brand {sortBy === "brand" && (sortOrder === "asc" ? "▲" : "▼")}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentProducts.map((product) => (
-            <tr key={product.sku}>
-              <td>{product.idnext}</td>
-              <td>
-                <Link className="link" to={`/products/${product.sku}`}>
-                  {product.sku}
-                </Link>
-              </td>
-              <td>{product.name}</td>
-              <td>{product.price}</td>
-              <td className="link">
-                <a className="link" href={product.urlfoto24}>
-                  {<ArrowBigRight size={20} />}
-                </a>
-              </td>
-              <td>
-                <a className="link" href={product.urlphoto24}>
-                  {<ArrowBigRight size={20} />}
-                </a>
-              </td>
-              <td>{product.stockmalaga}</td>
-              <td>{product.stockqmedia}</td>
-              <td>{product.sales1}</td>
-              <td>{product.sales10}</td>
-              <td>{product.sales30}</td>
-              <td>{product.sales90}</td>
-              <td>{product.sales180}</td>
-              <td>{product.sales365}</td>
-              <td>{product.brand}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
       <Pagination
         postPerPage={productsPerPage}
         totalPosts={products.length}
