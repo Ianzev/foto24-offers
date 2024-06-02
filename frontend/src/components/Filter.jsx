@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from "react";
 import styles from "./filter.module.css";
+import {
+  filterProductsByBrand,
+  filterProductsByAvailability,
+} from "../utils/filteringProducts";
 
-export default function Filter({ entries }) {
+export default function Filter({
+  entries,
+  products,
+  setCurrentPage,
+  setProducts,
+}) {
   const [formData, setFormData] = useState({
     brand: "", // Initial value for brand
     availability: "", // Initial value for availibility
@@ -10,9 +19,27 @@ export default function Filter({ entries }) {
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
+
+  const filterProductsBrand = (brand) => {
+    filterProductsByBrand(products, brand, setCurrentPage, setProducts);
+  };
+
+  const filterProductsAvailability = (availability) => {
+    filterProductsByAvailability(
+      products,
+      availability,
+      setCurrentPage,
+      setProducts
+    );
+  };
+
   useEffect(() => {
-    console.log(formData);
-  }, [formData]);
+    filterProductsBrand(formData.brand);
+  }, [formData.brand]);
+
+  useEffect(() => {
+    filterProductsAvailability(formData.availability);
+  }, [formData.availability]);
 
   return (
     <div className={styles["filter-bar"]}>
@@ -43,18 +70,3 @@ export default function Filter({ entries }) {
     </div>
   );
 }
-
-export const filterValuesData = [
-  {
-    displayName: "Brand",
-    values: ["Godox", "Genesis", "Irix"],
-    type: "checkbox",
-    inputValue: "brand",
-  },
-  {
-    displayName: "Availability",
-    values: ["Available", "Not available"],
-    type: "radio",
-    inputValue: "availibility",
-  },
-];

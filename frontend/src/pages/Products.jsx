@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 //COMPONENTS
 import Pagination from "../components/Pagination/Pagination.jsx";
@@ -8,7 +8,7 @@ import TableHeader from "../components/TableHeader.jsx";
 import TableData from "../components/TableData.jsx";
 import Table from "../components/Table.jsx";
 import GoBackArrow from "../components/ui/GoBackArrow.jsx";
-import Filter, { filterValuesData } from "../components/Filter.jsx";
+import Filter from "../components/Filter.jsx";
 
 import {
   fetchAllProducts,
@@ -18,6 +18,7 @@ import { filterProductsByBrand } from "../utils/filteringProducts.js";
 
 import { handleSort, sortProducts } from "./../utils/sortingMechanism";
 import { productsColumns } from "../utils/tableColumnsData.js";
+import { filterValuesData } from "./../utils/filterValuesData";
 
 function ProductsTable() {
   const [products, setProducts] = useState([]);
@@ -52,18 +53,18 @@ function ProductsTable() {
 
   const filterValues = filterValuesData;
 
-  // const filterProducts = () => {
-  //   filterProductsByBrand(products, "", setCurrentPage, setProducts, 900, 1300);
-  // };
-
   return (
     <>
       <TitleHeader text="Products">
-        {/* <Button text="GODOX" action={filterProducts} /> */}
         <Button text="Update" action={handleUpdateStock} />
         <GoBackArrow text="Home Page" backTo="" />
       </TitleHeader>
-      <Filter entries={filterValues} />
+      <Filter
+        entries={filterValues}
+        products={products}
+        setCurrentPage={setCurrentPage}
+        setProducts={setProducts}
+      />
       <Table>
         <TableHeader
           columns={columns}

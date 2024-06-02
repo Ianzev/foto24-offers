@@ -2,17 +2,26 @@ export const filterProductsByBrand = (
   products,
   brand,
   setCurrentPage,
-  setProducts,
-  stockMin,
-  stockMax
+  setProducts
 ) => {
   const filteredBrand = products.filter((product) => product.brand === brand);
+  setProducts(filteredBrand);
+  setCurrentPage(1);
+};
 
-  const filteredStock = filteredBrand.filter(
-    (product) =>
-      stockMin < product.stockmalaga + product.stockqmedia &&
-      product.stockmalaga + product.stockqmedia < stockMax
+export const filterProductsByAvailability = (
+  products,
+  availability,
+  setCurrentPage,
+  setProducts
+) => {
+  const filteredAvailability = products.filter((product) =>
+    availability === "Available"
+      ? product.stockmalaga + product.stockqmedia > 0
+      : availability === "Not available"
+      ? product.stockmalaga + product.stockqmedia == 0
+      : ""
   );
-  setProducts(filteredStock);
+  setProducts(filteredAvailability);
   setCurrentPage(1);
 };
