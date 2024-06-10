@@ -1,20 +1,9 @@
-export const filterProductsByBrand = (
-  products,
-  brand,
-  setCurrentPage,
-  setProducts
-) => {
+export const filterProductsByBrand = (products, brand) => {
   const filteredBrand = products.filter((product) => product.brand === brand);
-  setProducts(filteredBrand);
-  setCurrentPage(1);
+  return filteredBrand;
 };
 
-export const filterProductsByAvailability = (
-  products,
-  availability,
-  setCurrentPage,
-  setProducts
-) => {
+export const filterProductsByAvailability = (products, availability) => {
   const filteredAvailability = products.filter((product) =>
     availability === "Available"
       ? product.stockmalaga + product.stockqmedia > 0
@@ -22,6 +11,23 @@ export const filterProductsByAvailability = (
       ? product.stockmalaga + product.stockqmedia == 0
       : ""
   );
-  setProducts(filteredAvailability);
+  return filteredAvailability;
+};
+
+export const filterProducts = (
+  products,
+  brand,
+  availability,
+  setCurrentPage,
+  setProducts
+) => {
+  let products1 = products;
+  if (availability !== "") {
+    products1 = filterProductsByAvailability(products1, availability);
+  }
+  if (brand !== "") {
+    products1 = filterProductsByBrand(products1, brand);
+  }
+  setProducts(products1);
   setCurrentPage(1);
 };

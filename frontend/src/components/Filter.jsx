@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./filter.module.css";
-import {
-  filterProductsByBrand,
-  filterProductsByAvailability,
-} from "../utils/filteringProducts";
+import { filterProducts } from "../utils/filteringProducts";
 
 export default function Filter({
   entries,
@@ -12,34 +9,21 @@ export default function Filter({
   setProducts,
 }) {
   const [formData, setFormData] = useState({
-    brand: "", // Initial value for brand
-    availability: "", // Initial value for availibility
+    brand: "",
+    availability: "",
   });
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const filterProductsBrand = (brand) => {
-    filterProductsByBrand(products, brand, setCurrentPage, setProducts);
-  };
-
-  const filterProductsAvailability = (availability) => {
-    filterProductsByAvailability(
-      products,
-      availability,
-      setCurrentPage,
-      setProducts
-    );
+  const filterProductsAll = (brand, availability) => {
+    filterProducts(products, brand, availability, setCurrentPage, setProducts);
   };
 
   useEffect(() => {
-    filterProductsBrand(formData.brand);
-  }, [formData.brand]);
-
-  useEffect(() => {
-    filterProductsAvailability(formData.availability);
-  }, [formData.availability]);
+    filterProductsAll(formData.brand, formData.availability);
+  }, [formData.brand, formData.availability]);
 
   return (
     <div className={styles["filter-bar"]}>

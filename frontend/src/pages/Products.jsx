@@ -14,7 +14,6 @@ import {
   fetchAllProducts,
   handleUpdateStock,
 } from "../utils/fetching/fetchProducts.js";
-import { filterProductsByBrand } from "../utils/filteringProducts.js";
 
 import { handleSort, sortProducts } from "./../utils/sortingMechanism";
 import { productsColumns } from "../utils/tableColumnsData.js";
@@ -22,6 +21,7 @@ import { filterValuesData } from "./../utils/filterValuesData";
 
 function ProductsTable() {
   const [products, setProducts] = useState([]);
+  const [productsCopy, setProductsCopy] = useState([]);
 
   const [sortBy, setSortBy] = useState("id"); // Default sort by id
   const [sortOrder, setSortOrder] = useState("asc"); // Default sort order ascending
@@ -32,7 +32,8 @@ function ProductsTable() {
   const lastPostIndex = currentPage * productsPerPage;
   const firstPostIndex = lastPostIndex - productsPerPage;
 
-  const allProducts = fetchAllProducts(setProducts);
+  fetchAllProducts(setProducts);
+  fetchAllProducts(setProductsCopy);
 
   const handleSortClick = (criteria) => {
     handleSort(
@@ -61,7 +62,7 @@ function ProductsTable() {
       </TitleHeader>
       <Filter
         entries={filterValues}
-        products={products}
+        products={productsCopy}
         setCurrentPage={setCurrentPage}
         setProducts={setProducts}
       />
