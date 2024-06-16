@@ -60,12 +60,7 @@ function ProductsTable() {
         <Button text="Update" action={handleUpdateStock} />
         <GoBackArrow text="Home Page" backTo="" />
       </TitleHeader>
-      <Filter
-        entries={filterValues}
-        products={productsCopy}
-        setCurrentPage={setCurrentPage}
-        setProducts={setProducts}
-      />
+
       <Table>
         <TableHeader
           columns={columns}

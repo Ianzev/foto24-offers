@@ -54,6 +54,8 @@ export const offerPageProductsColumns = [
   { displayName: "Name", columnName: "name" },
   { displayName: "Price", columnName: "price" },
   { displayName: "Price reduced", columnName: "priceReduced" },
+  { displayName: "Stock Malaga", columnName: "stock_malaga" },
+  { displayName: "Stock Kraków", columnName: "stock_qmedia" },
   { displayName: "Brand", columnName: "brand" },
 ];
 

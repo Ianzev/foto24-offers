@@ -18,14 +18,15 @@ import {
   offerPageProductsColumns,
   offerPageVerticalColumns,
 } from "../utils/tableColumnsData";
+import TableHeader from "../components/TableHeader";
 
 function OfferDetails() {
   const { id } = useParams();
   const [offer, setOffer] = useState(null);
   const [products, setProducts] = useState(null);
 
-  const offerDetails = fetchOfferDetails(setOffer, id);
-  const offerProducts = fetchOfferProducts(setProducts, id);
+  fetchOfferDetails(setOffer, id);
+  fetchOfferProducts(setProducts, id);
 
   const columnsVertical = offerPageVerticalColumns;
   const columnsProducts = offerPageProductsColumns;
@@ -51,6 +52,8 @@ function OfferDetails() {
       price: additionalInfo ? additionalInfo.price : "", // If additionalInfo exists, get the price, otherwise use an empty string
       priceReduced: item.price,
       brand: additionalInfo ? additionalInfo.brand : "", // If additionalInfo exists
+      stock_malaga: additionalInfo ? additionalInfo.stockmalaga : "",
+      stock_qmedia: additionalInfo ? additionalInfo.stockqmedia : "",
     };
   });
 
@@ -64,7 +67,7 @@ function OfferDetails() {
         <TableVertical entry={offer} columns={columnsVertical} />
       </Table>
 
-      <TitleHeader text="Sales">
+      <TitleHeader text="">
         <Button
           text="CSV"
           action={() => {
@@ -76,6 +79,7 @@ function OfferDetails() {
       </TitleHeader>
 
       <Table>
+        <TableHeader columns={columnsProducts} />
         <TableData entries={finalProductsArray} columns={columnsProducts} />
       </Table>
     </>
