@@ -38,3 +38,23 @@ export function fetchOfferProducts(products, id) {
       });
   }, [id]);
 }
+
+export async function handleAddOfferToDB(offerData) {
+  try {
+    const response = await fetch("http://localhost:3001/offers/add-offer", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(offerData),
+    });
+    if (response.ok) {
+      alert("Offer added successfully");
+    } else {
+      throw new Error("Failed to add offer");
+    }
+  } catch (error) {
+    console.error("Error adding offer:", error);
+    alert("Error adding offer");
+  }
+}

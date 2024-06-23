@@ -64,3 +64,20 @@ export const offerPageVerticalColumns = [
   { displayName: "End", columnName: "end_date" },
   { displayName: "Products", columnName: "products" },
 ];
+
+export const productsColumnsAddOffer = [
+  { displayName: "x", columnName: "select" },
+  { displayName: "SKU", columnName: "sku" },
+  { displayName: "Name", columnName: "name" },
+  { displayName: "Price", columnName: "price" },
+  { displayName: "Price Reduced", columnName: "addPrice" },
+  { displayName: "Malaga", columnName: "stockmalaga" },
+  { displayName: "Qmedia", columnName: "stockqmedia" },
+  { displayName: "1 day", columnName: "sales1" },
+  { displayName: "10 days", columnName: "sales10" },
+  { displayName: "30 days", columnName: "sales30" },
+  { displayName: "90 days", columnName: "sales90" },
+  { displayName: "180 days", columnName: "sales180" },
+  { displayName: "365 days", columnName: "sales365" },
+  { displayName: "Brand", columnName: "brand" },
+];

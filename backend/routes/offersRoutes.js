@@ -77,4 +77,18 @@ router.get("/:id/products", async (req, res) => {
   }
 });
 
+router.put("/add-offer", async (req, res) => {
+  const { name, start_date, end_date, products } = req.body;
+  try {
+    const query =
+      "INSERT INTO offers (name, start_date, end_date, products) VALUES ($1, $2, $3, $4)";
+    const values = [name, start_date, end_date, products];
+    await pool.query(query, values);
+    res.status(201).json({ message: "Offer added successfully" });
+  } catch (error) {
+    console.error("Error adding offer:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 module.exports = router;

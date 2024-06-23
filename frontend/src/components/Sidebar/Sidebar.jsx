@@ -15,8 +15,8 @@ const Layout = ({ children }) => {
         <a className="link" href="/offers">
           <SidebarItem icon={<BadgePercent size={20} />} text="Offers" />
         </a>
-        <a className="link" href="/offers">
-          <SidebarItem icon={<CirclePlus size={20} />} text="CSV" />
+        <a className="link" href="/add-offer">
+          <SidebarItem icon={<CirclePlus size={20} />} text="Add" />
         </a>
       </Sidebar>
       <div className="flex-1">{children}</div>

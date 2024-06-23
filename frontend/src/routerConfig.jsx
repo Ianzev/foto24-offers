@@ -7,6 +7,7 @@ import Offers from "./pages/Offers.jsx";
 import OfferDetails from "./pages/OfferPage.jsx";
 import LoginContainer from "./pages/Login/LoginContainer.jsx";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
+import AddOffer from "./pages/AddOffer.jsx";
 
 // Wrapper component to conditionally render Layout
 const RouteWrapper = ({ element }) => {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <LoginContainer isLoginFormProp={false} />,
+  },
+  {
+    path: "/add-offer",
+    element: <RouteWrapper element={<AddOffer />} />,
   },
 ]);
 
